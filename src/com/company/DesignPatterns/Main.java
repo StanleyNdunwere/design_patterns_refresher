@@ -1,6 +1,9 @@
 package com.company.DesignPatterns;
 
 import com.company.DesignPatterns.creational_patterns.builder.PizzaOrder;
+import com.company.DesignPatterns.creational_patterns.factory.SpaceShip;
+import com.company.DesignPatterns.creational_patterns.factory.SpaceShipFactory;
+import com.company.DesignPatterns.creational_patterns.factory.SpaceShipType;
 import com.company.DesignPatterns.creational_patterns.prototype.AlienDNA;
 import com.company.DesignPatterns.creational_patterns.singleton.SingletonCarEngineParts;
 
@@ -34,10 +37,30 @@ public class Main {
 
 
 		//prototype pattern
-		AlienDNA originalAlienDNA = new AlienDNA("adenine-40%","guanine-10%", "cytosine-25%", "thymine-25%");
+		AlienDNA originalAlienDNA = new AlienDNA("adenine-40%", "guanine-10%", "cytosine-25%", "thymine-25%");
 		System.out.println(originalAlienDNA.getCloneSuccessful());
 		AlienDNA copyAlienDNA = (AlienDNA) originalAlienDNA.getPrototypeDNA();
 		System.out.println(copyAlienDNA.getCloneSuccessful());
 
+
+		//factory pattern
+		SpaceShip spaceShip = SpaceShipFactory.getPreConfiguredSpaceShip(SpaceShipType.manned);
+		SpaceShip spaceShip1 = SpaceShipFactory.getPreConfiguredSpaceShip(SpaceShipType.unManned);
+
+		spaceShip.fireUpTheEngines();
+		spaceShip.initiateLaunchSequence();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		spaceShip1.fireUpTheEngines();
+		spaceShip1.initiateLaunchSequence();
+
+		System.out.println(spaceShip1.giveListOfParts());
+		System.out.println(spaceShip1.priceOfShip());
+
+		System.out.println(spaceShip.giveListOfParts());
+		System.out.println(spaceShip.priceOfShip());
 	}
 }
