@@ -6,6 +6,14 @@ import com.company.DesignPatterns.creational_patterns.factory.SpaceShipFactory;
 import com.company.DesignPatterns.creational_patterns.factory.SpaceShipType;
 import com.company.DesignPatterns.creational_patterns.prototype.AlienDNA;
 import com.company.DesignPatterns.creational_patterns.singleton.SingletonCarEngineParts;
+import com.company.DesignPatterns.structural.adapters.Product;
+import com.company.DesignPatterns.structural.adapters.ProductConverterAdapter;
+import com.company.DesignPatterns.structural.adapters.StoreProduct;
+import com.company.DesignPatterns.structural.adapters.WarehouseProduct;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
 
@@ -62,5 +70,60 @@ public class Main {
 
 		System.out.println(spaceShip.giveListOfParts());
 		System.out.println(spaceShip.priceOfShip());
+
+
+		//Adapter pattern
+		ArrayList<WarehouseProduct> wareHouseProducts = new ArrayList<>();
+		ArrayList<StoreProduct> storeProducts = new ArrayList<>();
+
+		WarehouseProduct product = new WarehouseProduct(
+				"Biscuit",
+				"10-10-2100",
+				100,
+				150
+		);
+
+		WarehouseProduct product1 = new WarehouseProduct(
+				"Noodles",
+				"10-09-2021",
+				10,
+				15
+		);
+
+		StoreProduct product3 = new StoreProduct(
+				"1234",
+				"Vitamin C",
+				10,
+				12,
+				"15-08-2021"
+		);
+
+		StoreProduct product4 = new StoreProduct(
+				"12444",
+				"Remdesivir",
+				2000,
+				12,
+				"19-08-2021"
+		);
+
+		wareHouseProducts.add(product);
+		wareHouseProducts.add(product1);
+
+		storeProducts.add(product4);
+		storeProducts.add(product3);
+
+		ArrayList<WarehouseProduct> wareHouseProductsList = new ArrayList<>();
+		wareHouseProductsList.addAll(wareHouseProducts);
+		//using the adapter
+		wareHouseProductsList.addAll(ProductConverterAdapter.convertStoreProductToWareHouseProduct(storeProducts));
+
+		ArrayList<StoreProduct> storeProductsList = new ArrayList<>();
+		storeProductsList.addAll(storeProducts);
+		//using the adapter
+		storeProductsList.addAll(ProductConverterAdapter.convertWareHouseProductsToStoreProducts(wareHouseProducts));
+
+
 	}
+
+
 }
