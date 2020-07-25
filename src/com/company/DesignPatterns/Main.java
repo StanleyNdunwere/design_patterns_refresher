@@ -10,6 +10,9 @@ import com.company.DesignPatterns.structural.adapters.Product;
 import com.company.DesignPatterns.structural.adapters.ProductConverterAdapter;
 import com.company.DesignPatterns.structural.adapters.StoreProduct;
 import com.company.DesignPatterns.structural.adapters.WarehouseProduct;
+import com.company.DesignPatterns.structural.bridge.RandomCodeCreator;
+import com.company.DesignPatterns.structural.bridge.ReverseNumberDistorter;
+import com.company.DesignPatterns.structural.bridge.SquareDistorter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,8 +125,20 @@ public class Main {
 		//using the adapter
 		storeProductsList.addAll(ProductConverterAdapter.convertWareHouseProductsToStoreProducts(wareHouseProducts));
 
+		//bridge pattern
+		SquareDistorter procedure = new SquareDistorter();
+		ReverseNumberDistorter procedure1 = new ReverseNumberDistorter();
+
+		RandomCodeCreator creator = new RandomCodeCreator(123343, 322020, procedure);
+		RandomCodeCreator creator1 = new RandomCodeCreator(78842372, 3257248, procedure1);
+
+		System.out.println(creator.getRandomCode());
+		System.out.println(creator1.getRandomCode());
+
+
+
+
+
 
 	}
-
-
 }
