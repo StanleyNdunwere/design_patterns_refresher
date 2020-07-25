@@ -13,6 +13,8 @@ import com.company.DesignPatterns.structural.adapters.WarehouseProduct;
 import com.company.DesignPatterns.structural.bridge.RandomCodeCreator;
 import com.company.DesignPatterns.structural.bridge.ReverseNumberDistorter;
 import com.company.DesignPatterns.structural.bridge.SquareDistorter;
+import com.company.DesignPatterns.structural.composite.OrderBox;
+import com.company.DesignPatterns.structural.composite.ProductItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -136,8 +138,26 @@ public class Main {
 		System.out.println(creator1.getRandomCode());
 
 
+		//composite pattern - tree structure
+		ProductItem fan = new ProductItem("Ceiling fan", 100);
+		ProductItem screwDriver = new ProductItem("Screw Driver", 100);
+		ProductItem pipeWrench = new ProductItem("Pipe Wrench", 100);
 
+		OrderBox completeWorkTools = new OrderBox("Complete Work Tools");
+		OrderBox onlyScrewDriver =  new OrderBox("Only Screw Driver");
+		OrderBox pipeWrenchAndCeilingFan =  new OrderBox("Pipe Wrench + Ceiling Fan");
+		onlyScrewDriver.addItemToPackage(screwDriver);
+		pipeWrenchAndCeilingFan.addItemToPackage(pipeWrench);
+		pipeWrenchAndCeilingFan.addItemToPackage(fan);
 
+		completeWorkTools.addItemToPackage(onlyScrewDriver);
+		completeWorkTools.addItemToPackage(fan);
+		completeWorkTools.addItemToPackage(pipeWrench);
+		completeWorkTools.addItemToPackage(screwDriver);
+		completeWorkTools.addItemToPackage(pipeWrenchAndCeilingFan);
+
+		System.out.println(completeWorkTools.getProductsInPackage().toString());
+		System.out.println(completeWorkTools.getPrice());
 
 
 	}
