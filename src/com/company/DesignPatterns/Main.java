@@ -1,12 +1,14 @@
 package com.company.DesignPatterns;
 
+import com.company.DesignPatterns.behavioural.chain_of_responsibility.CarbonSteelHandler;
+import com.company.DesignPatterns.behavioural.chain_of_responsibility.Steel;
+import com.company.DesignPatterns.behavioural.chain_of_responsibility.SteelType;
 import com.company.DesignPatterns.creational_patterns.builder.PizzaOrder;
 import com.company.DesignPatterns.creational_patterns.factory.SpaceShip;
 import com.company.DesignPatterns.creational_patterns.factory.SpaceShipFactory;
 import com.company.DesignPatterns.creational_patterns.factory.SpaceShipType;
 import com.company.DesignPatterns.creational_patterns.prototype.AlienDNA;
 import com.company.DesignPatterns.creational_patterns.singleton.SingletonCarEngineParts;
-import com.company.DesignPatterns.structural.adapters.Product;
 import com.company.DesignPatterns.structural.adapters.ProductConverterAdapter;
 import com.company.DesignPatterns.structural.adapters.StoreProduct;
 import com.company.DesignPatterns.structural.adapters.WarehouseProduct;
@@ -15,16 +17,19 @@ import com.company.DesignPatterns.structural.bridge.ReverseNumberDistorter;
 import com.company.DesignPatterns.structural.bridge.SquareDistorter;
 import com.company.DesignPatterns.structural.composite.OrderBox;
 import com.company.DesignPatterns.structural.composite.ProductItem;
+import com.company.DesignPatterns.structural.decorator.KetchUpSandwich;
+import com.company.DesignPatterns.structural.decorator.Sandwich;
+import com.company.DesignPatterns.structural.decorator.VegetableSandwich;
+import com.company.DesignPatterns.structural.facade.CombineRandomStringWithRandomListString;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Main {
 
 	public static void main(String[] args) {
 
-		//Singleton pattern
+		//Singleton pattern -> usually database connections and reusable objects expensive to recreate
 		SingletonCarEngineParts parts = SingletonCarEngineParts.getInstance();
 		SingletonCarEngineParts parts1 = SingletonCarEngineParts.getInstance();
 
@@ -35,7 +40,7 @@ public class Main {
 		}
 
 
-		//Builder pattern
+		//Builder pattern -> String builder, document builder
 		PizzaOrder.PizzaOrderBuilder pizzaBuilder = new PizzaOrder.PizzaOrderBuilder();
 		PizzaOrder.PizzaOrderBuilder pizzaBuilder1 = new PizzaOrder.PizzaOrderBuilder();
 		PizzaOrder order = pizzaBuilder.doughType("corn flour").flavorings("vanilla").meatType("peacock").build();
@@ -49,14 +54,14 @@ public class Main {
 			System.out.println("Builder for order 1 Success. 'sodaType' was not supplied in order");
 
 
-		//prototype pattern
+		//prototype pattern -> implementing cloneable inteface
 		AlienDNA originalAlienDNA = new AlienDNA("adenine-40%", "guanine-10%", "cytosine-25%", "thymine-25%");
 		System.out.println(originalAlienDNA.getCloneSuccessful());
 		AlienDNA copyAlienDNA = (AlienDNA) originalAlienDNA.getPrototypeDNA();
 		System.out.println(copyAlienDNA.getCloneSuccessful());
 
 
-		//factory pattern
+		//factory pattern -> creating new object i.e calendar.getInstance();
 		SpaceShip spaceShip = SpaceShipFactory.getPreConfiguredSpaceShip(SpaceShipType.manned);
 		SpaceShip spaceShip1 = SpaceShipFactory.getPreConfiguredSpaceShip(SpaceShipType.unManned);
 
@@ -119,7 +124,7 @@ public class Main {
 
 		ArrayList<WarehouseProduct> wareHouseProductsList = new ArrayList<>();
 		wareHouseProductsList.addAll(wareHouseProducts);
-		//using the adapter
+		//using the adapter -> recycler view adapter android
 		wareHouseProductsList.addAll(ProductConverterAdapter.convertStoreProductToWareHouseProduct(storeProducts));
 
 		ArrayList<StoreProduct> storeProductsList = new ArrayList<>();
@@ -127,7 +132,7 @@ public class Main {
 		//using the adapter
 		storeProductsList.addAll(ProductConverterAdapter.convertWareHouseProductsToStoreProducts(wareHouseProducts));
 
-		//bridge pattern
+		//bridge pattern  -> jdbc
 		SquareDistorter procedure = new SquareDistorter();
 		ReverseNumberDistorter procedure1 = new ReverseNumberDistorter();
 
@@ -138,14 +143,14 @@ public class Main {
 		System.out.println(creator1.getRandomCode());
 
 
-		//composite pattern - tree structure
+		//composite pattern - tree structure -> Document builder i.e html
 		ProductItem fan = new ProductItem("Ceiling fan", 100);
 		ProductItem screwDriver = new ProductItem("Screw Driver", 100);
 		ProductItem pipeWrench = new ProductItem("Pipe Wrench", 100);
 
 		OrderBox completeWorkTools = new OrderBox("Complete Work Tools");
-		OrderBox onlyScrewDriver =  new OrderBox("Only Screw Driver");
-		OrderBox pipeWrenchAndCeilingFan =  new OrderBox("Pipe Wrench + Ceiling Fan");
+		OrderBox onlyScrewDriver = new OrderBox("Only Screw Driver");
+		OrderBox pipeWrenchAndCeilingFan = new OrderBox("Pipe Wrench + Ceiling Fan");
 		onlyScrewDriver.addItemToPackage(screwDriver);
 		pipeWrenchAndCeilingFan.addItemToPackage(pipeWrench);
 		pipeWrenchAndCeilingFan.addItemToPackage(fan);
@@ -160,5 +165,27 @@ public class Main {
 		System.out.println(completeWorkTools.getPrice());
 
 
+		//decorator pattern/wrapper -> I/O streams in java
+		Sandwich sandwich = new Sandwich();
+		VegetableSandwich vegetableSandwich = new VegetableSandwich(sandwich);
+		KetchUpSandwich ketchUpSandwich = new KetchUpSandwich(vegetableSandwich);
+		ketchUpSandwich.selectCondiments();
+		ketchUpSandwich.addCondiments();
+		ketchUpSandwich.statusOfSandwich();
+
+		//facade pattern - complex api that you need to expose with a simpler abstraction
+		//http URL connection in java
+		CombineRandomStringWithRandomListString combine = new CombineRandomStringWithRandomListString();
+		System.out.println(combine.combineStringListAndComplexString());
+
+
+		//chain of responsibility pattern
+		Steel steel = new Steel(SteelType.STAINLESS_STEEL);
+		CarbonSteelHandler carbonSteelHandler = new CarbonSteelHandler(steel);
+		Steel processedSteel = carbonSteelHandler.processSteel();
+		List<String> props = processedSteel.getSteelProps();
+		for (String prop : props) {
+			System.out.println(prop);
+		}
 	}
 }

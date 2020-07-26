@@ -14,6 +14,7 @@ public class ProductItem implements Package {
 		this.price = price;
 	}
 
+	@Override
 	public int getPrice() {
 		return this.price;
 	}
