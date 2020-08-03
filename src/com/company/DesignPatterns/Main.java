@@ -3,6 +3,10 @@ package com.company.DesignPatterns;
 import com.company.DesignPatterns.behavioural.chain_of_responsibility.CarbonSteelHandler;
 import com.company.DesignPatterns.behavioural.chain_of_responsibility.Steel;
 import com.company.DesignPatterns.behavioural.chain_of_responsibility.SteelType;
+import com.company.DesignPatterns.behavioural.command.FoundationLayer;
+import com.company.DesignPatterns.behavioural.command.House;
+import com.company.DesignPatterns.behavioural.command.HouseBuilder;
+import com.company.DesignPatterns.behavioural.command.PaintHouse;
 import com.company.DesignPatterns.creational_patterns.builder.PizzaOrder;
 import com.company.DesignPatterns.creational_patterns.factory.SpaceShip;
 import com.company.DesignPatterns.creational_patterns.factory.SpaceShipFactory;
@@ -179,7 +183,8 @@ public class Main {
 		System.out.println(combine.combineStringListAndComplexString());
 
 
-		//chain of responsibility pattern
+		//chain of responsibility pattern - passing commands down a chain until a matching processor can handle it
+		// example -> spring security filter chain
 		Steel steel = new Steel(SteelType.STAINLESS_STEEL);
 		CarbonSteelHandler carbonSteelHandler = new CarbonSteelHandler(steel);
 		Steel processedSteel = carbonSteelHandler.processSteel();
@@ -187,5 +192,12 @@ public class Main {
 		for (String prop : props) {
 			System.out.println(prop);
 		}
+
+		//command pattern - encapsulates the implementation or processing in individual objects -> runnable interface
+		PaintHouse builder = new PaintHouse();
+		FoundationLayer layer = new FoundationLayer();
+		House house = new House(builder);
+//		house = new House(layer);
+		house.performBuildTask();
 	}
 }
